@@ -1,0 +1,45 @@
+version: '3.8'
+
+networks:
+  api:
+    driver: bridge
+
+services:
+  db:
+    container_name: db
+    hostname: db
+    env_file:
+      - ./.env
+    image: postgres:14
+    ports:
+      - target: 5432
+        published: $POSTGRES_EXTERNAL_PORT
+    networks:
+      api: null
+    restart: unless-stopped
+    volumes:
+      - $MOUNT_PGDATA_1:/data/postgres
+      - $MOUNT_PGDATA_2:/var/lib/postgresql/data
+
+  api:
+    container_name: api
+    hostname: api
+    env_file:
+      - ./.env
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      args:
+        - POSTGRES_USER=$POSTGRES_USER
+        - POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+        - POSTGRES_DB=$POSTGRES_DB
+    depends_on:
+      - db
+    ports:
+      - target: 8080
+        published: $SERVER_EXTERNAL_PORT
+    networks:
+      api: null
+    restart: unless-stopped
+    volumes:
+      - ./api:/api
