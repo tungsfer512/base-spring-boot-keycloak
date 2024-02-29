@@ -262,6 +262,32 @@ public class UserController {
         }
     }
 
+    @GetMapping("/me/permissions")
+    public ResponseEntity<Object> getMePermissions(@AuthenticationPrincipal Jwt jwt) {
+        try {
+            String id = jwt.getClaim("sub");
+            User user = userService.findById(id);
+            if (user == null) {
+                UserRepresentation keycloakUser = keycloak.realm(realm).users().get(id).toRepresentation();
+                user = new User();
+                user.setId(keycloakUser.getId());
+                user.setUsername(keycloakUser.getUsername());
+                user.setEmail(keycloakUser.getEmail());
+                user.setFirstName(keycloakUser.getFirstName());
+                user.setLastName(keycloakUser.getLastName());
+                user.setFullName(keycloakUser.getLastName() + " " + keycloakUser.getFirstName());
+                user.setCreatedAt(keycloakUser.getCreatedTimestamp().toString());
+                userService.save(user);
+            }
+            CustomResponse<Map<String, Object>> response = new CustomResponse<>(200, jwt.getClaims());
+
+            return response.response();
+        } catch (Exception e) {
+            CustomResponse<Object> response = new CustomResponse<>(500, e);
+            return response.response();
+        }
+    }
+
     @PatchMapping("/me")
     public ResponseEntity<Object> updateMe(@AuthenticationPrincipal Jwt jwt,
             @RequestBody Map<String, Object> body) {

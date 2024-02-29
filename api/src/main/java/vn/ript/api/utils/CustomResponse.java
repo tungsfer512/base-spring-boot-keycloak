@@ -1,5 +1,6 @@
 package vn.ript.api.utils;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +30,17 @@ public class CustomResponse<T> {
             responseData.put("ErrorDesc", "Thanh cong");
             responseData.put("ErrorCode", "0");
             responseData.put("status", "OK");
-            responseData.put("data", this.data);
+            if (this.data instanceof String) {
+                if (this.data.toString().startsWith("{")) {
+                    JSONObject jsonObject = new JSONObject(this.data.toString());
+                    responseData.put("data", jsonObject.toMap());
+                } else if (this.data.toString().startsWith("[")) {
+                    JSONArray jsonArray = new JSONArray(data);
+                    responseData.put("data", jsonArray.toList());
+                } else {
+                    responseData.put("data", this.data.toString());
+                }
+            }
             return new ResponseEntity<Object>(responseData.toMap(), httpStatus);
         } else {
             responseData.put("ErrorDesc", "That bai");
