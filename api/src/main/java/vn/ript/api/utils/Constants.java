@@ -8,6 +8,7 @@ public class Constants {
 
     public enum LOI {
         THIEU_THONG_TIN(400, "Thieu thong tin"),
+        KHONG_TIM_THAY(404, "Khong tim thay doi tuong can tim"),
         ;
 
         private final Integer ma;

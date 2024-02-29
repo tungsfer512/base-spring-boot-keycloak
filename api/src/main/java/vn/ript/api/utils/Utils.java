@@ -135,10 +135,10 @@ public class Utils {
             reader.close();
             int exitCode = process.waitFor();
             if (exitCode == 0) {
-                jsonObject.put("status", "Success");
+                jsonObject.put("status", 200);
                 jsonObject.put("data", output.toString());
             } else {
-                jsonObject.put("status", "Failed");
+                jsonObject.put("status", 500);
                 jsonObject.put("data", error.toString());
             }
             return jsonObject.toString();
