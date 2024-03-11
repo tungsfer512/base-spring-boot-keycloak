@@ -14,7 +14,7 @@ services:
     ports:
       - "5437:5432"
     volumes:
-      - ./keycloak-db:/var/lib/postgresql/data
+      - ./sso-data/keycloak-db:/var/lib/postgresql/data
     restart: unless-stopped
     networks:
       keycloak-network: null
@@ -36,8 +36,6 @@ services:
       - "8890:8080"
       - "8444:8443"
     command: start-dev
-    volumes:
-      - /keycloak-data:/opt/keycloak:ro
     restart: unless-stopped
     networks:
       keycloak-network: null

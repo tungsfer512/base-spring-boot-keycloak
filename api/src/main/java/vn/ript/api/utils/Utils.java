@@ -27,7 +27,7 @@ import com.google.common.hash.Hashing;
 
 public class Utils {
 
-    public static String FILE_DIR = "/api/src/main/resources/files";
+    public static String FILE_DIR = Env.FILE_DIR;
 
     public static String UUID() {
         return UUID.randomUUID().toString();
@@ -83,6 +83,17 @@ public class Utils {
     public static Date YYYY_MM_DD_TO_DATE(String date_text) {
         try {
             String pattern = "yyyy/MM/dd";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            return simpleDateFormat.parse(date_text);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static Date YYYY_MM_DD_HH_MM_SS_TO_DATE(String date_text) {
+        try {
+            String pattern = "yyyy/MM/dd HH:mm:ss";
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
             return simpleDateFormat.parse(date_text);
         } catch (ParseException e) {

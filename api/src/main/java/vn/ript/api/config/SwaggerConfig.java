@@ -1,6 +1,5 @@
 package vn.ript.api.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -9,15 +8,14 @@ import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
+import vn.ript.api.utils.Env;
 
 @Configuration
 public class SwaggerConfig {
 
-    @Value("${ript.openapi.dev-url}")
-    private String devUrl;
+    private String devUrl = Env.OPENAPI_DEV_URL;
 
-    @Value("${ript.openapi.prod-url}")
-    private String prodUrl;
+    private String prodUrl = Env.OPENAPI_PROD_URL;
 
     @Bean
     public OpenAPI myOpenAPI() {

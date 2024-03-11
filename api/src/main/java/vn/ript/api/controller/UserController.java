@@ -26,13 +26,13 @@ import jakarta.ws.rs.core.Response;
 import vn.ript.api.model.User;
 import vn.ript.api.service.UserService;
 import vn.ript.api.utils.CustomResponse;
+import vn.ript.api.utils.Env;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
 
-    @Value("${ript.keycloak.realm}")
-    private String realm;
+    private static String realm = Env.KEYCLOAK_REALM;
 
     @Autowired
     private Keycloak keycloak;
@@ -117,7 +117,8 @@ public class UserController {
                     user.setEmail(keycloakUser.getEmail());
                     user.setFirstName(keycloakUser.getFirstName());
                     user.setLastName(keycloakUser.getLastName());
-                    user.setFullName(keycloakUser.getLastName() + " " + keycloakUser.getFirstName());
+                    user.setFullName(keycloakUser.getLastName() + " " +
+                            keycloakUser.getFirstName());
                     user.setCreatedAt(keycloakUser.getCreatedTimestamp().toString());
                     userService.save(user);
                 }
@@ -156,12 +157,14 @@ public class UserController {
                 }
                 if (body.containsKey("firstName")) {
                     user.setFirstName(body.get("firstName").toString());
-                    user.setFullName((user.getLastName() + " " + body.get("firstName").toString()).trim());
+                    user.setFullName((user.getLastName() + " " +
+                            body.get("firstName").toString()).trim());
                     keycloakUser.setFirstName(body.get("firstName").toString());
                 }
                 if (body.containsKey("lastName")) {
                     user.setLastName(body.get("lastName").toString());
-                    user.setFullName((body.get("lastName").toString() + " " + user.getFirstName()).trim());
+                    user.setFullName((body.get("lastName").toString() + " " +
+                            user.getFirstName()).trim());
                     keycloakUser.setLastName(body.get("lastName").toString());
                 }
                 if (body.containsKey("gender")) {
@@ -249,7 +252,8 @@ public class UserController {
                 user.setEmail(keycloakUser.getEmail());
                 user.setFirstName(keycloakUser.getFirstName());
                 user.setLastName(keycloakUser.getLastName());
-                user.setFullName(keycloakUser.getLastName() + " " + keycloakUser.getFirstName());
+                user.setFullName(keycloakUser.getLastName() + " " +
+                        keycloakUser.getFirstName());
                 user.setCreatedAt(keycloakUser.getCreatedTimestamp().toString());
                 userService.save(user);
             }
@@ -275,11 +279,13 @@ public class UserController {
                 user.setEmail(keycloakUser.getEmail());
                 user.setFirstName(keycloakUser.getFirstName());
                 user.setLastName(keycloakUser.getLastName());
-                user.setFullName(keycloakUser.getLastName() + " " + keycloakUser.getFirstName());
+                user.setFullName(keycloakUser.getLastName() + " " +
+                        keycloakUser.getFirstName());
                 user.setCreatedAt(keycloakUser.getCreatedTimestamp().toString());
                 userService.save(user);
             }
-            CustomResponse<Map<String, Object>> response = new CustomResponse<>(200, jwt.getClaims());
+            CustomResponse<Map<String, Object>> response = new CustomResponse<>(200,
+                    jwt.getClaims());
 
             return response.response();
         } catch (Exception e) {
@@ -307,12 +313,14 @@ public class UserController {
                 }
                 if (body.containsKey("firstName")) {
                     user.setFirstName(body.get("firstName").toString());
-                    user.setFullName((user.getLastName() + " " + body.get("firstName").toString()).trim());
+                    user.setFullName((user.getLastName() + " " +
+                            body.get("firstName").toString()).trim());
                     keycloakUser.setFirstName(body.get("firstName").toString());
                 }
                 if (body.containsKey("lastName")) {
                     user.setLastName(body.get("lastName").toString());
-                    user.setFullName((body.get("lastName").toString() + " " + user.getFirstName()).trim());
+                    user.setFullName((body.get("lastName").toString() + " " +
+                            user.getFirstName()).trim());
                     keycloakUser.setLastName(body.get("lastName").toString());
                 }
                 if (body.containsKey("gender")) {

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import vn.ript.api.model.User;
 
-public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends JpaRepository<User, String>,
+                JpaSpecificationExecutor<User> {
 
 }
