@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.3</version>
-		<relativePath /> <!-- lookup parent from repository -->
+		<relativePath />
+		<!-- lookup parent from repository -->
 	</parent>
 	<groupId>vn.ript</groupId>
 	<artifactId>api</artifactId>
@@ -234,12 +234,6 @@
 			<artifactId>xml-apis</artifactId>
 			<version>2.0.2</version>
 		</dependency>
-		<!-- https://github.com/springfox/springfox/tree/3.0.0
-		<dependency>
-			<groupId>io.springfox</groupId>
-			<artifactId>springfox-boot-starter</artifactId>
-			<version>3.0.0</version>
-		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -258,20 +252,14 @@
 			<artifactId>keycloak-admin-client</artifactId>
 			<version>23.0.7</version>
 		</dependency>
-		<dependency>
+		<!-- Local Libs -->
+		<!-- <dependency>
 			<groupId>vn.ript</groupId>
-			<artifactId>EdXML102</artifactId>
-			<version>0.0.3</version>
+			<artifactId>**Lib Name**</artifactId>
+			<version>**Lib Version**</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/libs/EdXML102-0.0.3.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>vn.ript</groupId>
-			<artifactId>SDKVXP</artifactId>
-			<version>2.0.0</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/libs/SDKVXP-2.0.0.jar</systemPath>
-		</dependency>
+			<systemPath>${basedir}/libs/**Lib File Name**</systemPath>
+		</dependency> -->
 	</dependencies>
 
 	<build>
