@@ -38,7 +38,8 @@ public class SecurityConfig {
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(
                                 jwtAuthenticationConverterForKeycloak())))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/api/v1/**").authenticated()
+                        // .requestMatchers("/api/v1/**").authenticated()
+                        .requestMatchers("/api/v1/**").permitAll()
                         .requestMatchers("/api/test-auth").authenticated()
                         .requestMatchers("/api/test-auth-user").hasAnyAuthority("ROLE_USER")
                         .requestMatchers("/api/test-auth-admin").hasAnyAuthority("ROLE_ADMIN")
@@ -50,13 +51,9 @@ public class SecurityConfig {
     public JwtAuthenticationConverter jwtAuthenticationConverterForKeycloak() {
         Converter<Jwt, Collection<GrantedAuthority>> jwtGrantedAuthoritiesConverter = jwt -> {
             Map<String, List<String>> resourceAccess = jwt.getClaim("resource_access");
-            System.out.println(resourceAccess);
             Object client = resourceAccess.get(KEYCLOAK_CLIENT_ID);
-            System.out.println(client);
             LinkedTreeMap<String, List<String>> clientRoleMap = (LinkedTreeMap<String, List<String>>) client;
-            System.out.println(clientRoleMap);
             List<String> clientRoles = new ArrayList<>(clientRoleMap.get("roles"));
-            System.out.println(clientRoles);
             return clientRoles.stream()
                     .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase().replace(" ", "_")))
                     .collect(Collectors.toList());

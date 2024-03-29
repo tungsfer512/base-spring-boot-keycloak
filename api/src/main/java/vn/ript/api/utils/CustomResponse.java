@@ -30,12 +30,12 @@ public class CustomResponse<T> {
             responseData.put("ErrorDesc", "Thanh cong");
             responseData.put("ErrorCode", "0");
             responseData.put("status", "OK");
-            if (this.data instanceof String) {
+            if (this.data != null && this.data instanceof String) {
                 if (this.data.toString().startsWith("{")) {
                     JSONObject jsonObject = new JSONObject(this.data.toString());
                     responseData.put("data", jsonObject.toMap());
                 } else if (this.data.toString().startsWith("[")) {
-                    JSONArray jsonArray = new JSONArray(data);
+                    JSONArray jsonArray = new JSONArray(this.data.toString());
                     responseData.put("data", jsonArray.toList());
                 } else {
                     responseData.put("data", this.data.toString());
@@ -46,7 +46,17 @@ public class CustomResponse<T> {
             responseData.put("ErrorDesc", "That bai");
             responseData.put("ErrorCode", "-1");
             responseData.put("status", "FAILED");
-            responseData.put("error", this.data);
+            if (this.data != null && this.data instanceof String) {
+                if (this.data.toString().startsWith("{")) {
+                    JSONObject jsonObject = new JSONObject(this.data.toString());
+                    responseData.put("error", jsonObject.toMap());
+                } else if (this.data.toString().startsWith("[")) {
+                    JSONArray jsonArray = new JSONArray(this.data.toString());
+                    responseData.put("error", jsonArray.toList());
+                } else {
+                    responseData.put("error", this.data.toString());
+                }
+            }
             return new ResponseEntity<Object>(responseData.toMap(), httpStatus);
         }
     }
@@ -59,7 +69,7 @@ public class CustomResponse<T> {
         responseData.put("error", "Loi file!!");
         HttpStatus httpStatus = HttpStatus.valueOf(this.statusCode);
         if (httpStatus.is2xxSuccessful()) {
-            if (data instanceof InputStreamResource) {
+            if (this.data != null && this.data instanceof InputStreamResource) {
                 return ResponseEntity.status(this.statusCode)
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename)
                         .contentType(MediaType.APPLICATION_OCTET_STREAM)
