@@ -8,7 +8,6 @@ import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,12 +24,16 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.ws.rs.core.Response;
 import vn.ript.api.model.User;
 import vn.ript.api.service.UserService;
+import vn.ript.api.utils.Constants;
+import vn.ript.api.utils.CustomLogger;
 import vn.ript.api.utils.CustomResponse;
 import vn.ript.api.utils.Env;
 
 @RestController
 @RequestMapping("/api/v1/users")
 public class UserController {
+
+    private static CustomLogger<UserController> logger = new CustomLogger<>(new UserController());
 
     private static String realm = Env.KEYCLOAK_REALM;
 
@@ -97,8 +100,7 @@ public class UserController {
             CustomResponse<List<User>> response = new CustomResponse<>(200, resUsers);
             return response.response();
         } catch (Exception e) {
-            CustomResponse<Object> response = new CustomResponse<>(500, e);
-            return response.response();
+            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -134,8 +136,7 @@ public class UserController {
                 return response.response();
             }
         } catch (Exception e) {
-            CustomResponse<Object> response = new CustomResponse<>(500, e);
-            return response.response();
+            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -209,8 +210,7 @@ public class UserController {
                 return response.response();
             }
         } catch (Exception e) {
-            CustomResponse<Object> response = new CustomResponse<>(500, e);
-            return response.response();
+            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -234,8 +234,7 @@ public class UserController {
             CustomResponse<Object> response = new CustomResponse<>(204);
             return response.response();
         } catch (Exception e) {
-            CustomResponse<Object> response = new CustomResponse<>(500, e);
-            return response.response();
+            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -261,8 +260,7 @@ public class UserController {
             CustomResponse<User> response = new CustomResponse<>(200, resUser);
             return response.response();
         } catch (Exception e) {
-            CustomResponse<Object> response = new CustomResponse<>(500, e);
-            return response.response();
+            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -289,8 +287,7 @@ public class UserController {
 
             return response.response();
         } catch (Exception e) {
-            CustomResponse<Object> response = new CustomResponse<>(500, e);
-            return response.response();
+            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -365,8 +362,7 @@ public class UserController {
                 return response.response();
             }
         } catch (Exception e) {
-            CustomResponse<Object> response = new CustomResponse<>(500, e);
-            return response.response();
+            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 

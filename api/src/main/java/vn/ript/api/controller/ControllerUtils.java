@@ -1,14 +1,14 @@
 package vn.ript.api.controller;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -19,10 +19,11 @@ import vn.ript.api.utils.CustomResponse;
 public class ControllerUtils {
 
     public static CustomResponse<Object> request(
-            @NotNull String method,
+            @NotNull HttpMethod method,
             @NotNull String url,
             @Nullable Map<String, String> headers,
             @Nullable String type,
+            @Nullable Map<String, String> params,
             @Nullable HttpEntity body) throws Exception {
         if (headers == null) {
             headers = new HashMap<>();
@@ -31,6 +32,9 @@ public class ControllerUtils {
             type = "JSON";
         }
         CustomHttpClientRequest httpRequest = new CustomHttpClientRequest(method, url, headers);
+        if (params != null && params.isEmpty() == false) {
+            params.forEach((k, v) -> httpRequest.add_query_param(k, v));
+        }
         HttpResponse httpResponse = null;
         if (body != null) {
             httpResponse = httpRequest.request(body);
@@ -56,4 +60,15 @@ public class ControllerUtils {
 
         return response;
     }
+
+    public static ResponseEntity<Object> response_error(Integer status_code, @Nullable Object obj) {
+        if (obj != null) {
+            CustomResponse<Object> response = new CustomResponse<>(status_code, obj.toString());
+            return response.response();
+        } else {
+            CustomResponse<Object> response = new CustomResponse<>(status_code);
+            return response.response();
+        }
+    }
+
 }

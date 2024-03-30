@@ -12,7 +12,7 @@ RUN apt install -y sshpass sudo nano
 
 COPY . .
 
-RUN ./mvnw clean package -DskipTests -q
+RUN ./mvnw clean install -DskipTests -q
 
 EXPOSE 8080
 

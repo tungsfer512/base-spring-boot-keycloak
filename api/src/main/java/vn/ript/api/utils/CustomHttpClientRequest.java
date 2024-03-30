@@ -17,20 +17,21 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.springframework.http.HttpMethod;
 
 public class CustomHttpClientRequest {
 
-    String method;
+    HttpMethod method;
     String url;
     Map<String, String> headers;
 
-    public CustomHttpClientRequest(String method, String url) {
+    public CustomHttpClientRequest(HttpMethod method, String url) {
         this.method = method;
         this.url = url;
         this.headers = new HashMap<>();
     }
 
-    public CustomHttpClientRequest(String method, String url, Map<String, String> headers) {
+    public CustomHttpClientRequest(HttpMethod method, String url, Map<String, String> headers) {
         this.method = method;
         this.url = url;
         this.headers = headers;
@@ -50,21 +51,21 @@ public class CustomHttpClientRequest {
         try {
             CloseableHttpClient httpClient = SkipSSLClient.CreateHttpClient();
             HttpRequestBase httpRequest = null;
-            if (this.method.equalsIgnoreCase("Get")) {
+            if (this.method == HttpMethod.GET) {
                 httpRequest = new HttpGet(url);
-            } else if (this.method.equalsIgnoreCase("Post")) {
+            } else if (this.method == HttpMethod.POST) {
                 httpRequest = new HttpPost(url);
-            } else if (this.method.equalsIgnoreCase("Put")) {
+            } else if (this.method == HttpMethod.PUT) {
                 httpRequest = new HttpPut(url);
-            } else if (this.method.equalsIgnoreCase("Patch")) {
+            } else if (this.method == HttpMethod.PATCH) {
                 httpRequest = new HttpPatch(url);
-            } else if (this.method.equalsIgnoreCase("Delete")) {
+            } else if (this.method == HttpMethod.DELETE) {
                 httpRequest = new HttpDelete(url);
-            } else if (this.method.equalsIgnoreCase("Head")) {
+            } else if (this.method == HttpMethod.HEAD) {
                 httpRequest = new HttpHead(url);
-            } else if (this.method.equalsIgnoreCase("Options")) {
+            } else if (this.method == HttpMethod.OPTIONS) {
                 httpRequest = new HttpOptions(url);
-            } else if (this.method.equalsIgnoreCase("Trace")) {
+            } else if (this.method == HttpMethod.TRACE) {
                 httpRequest = new HttpTrace(url);
             } else {
                 httpRequest = new HttpGet(url);
@@ -85,11 +86,11 @@ public class CustomHttpClientRequest {
         try {
             CloseableHttpClient httpClient = SkipSSLClient.CreateHttpClient();
             HttpEntityEnclosingRequestBase httpRequest = null;
-            if (this.method.equalsIgnoreCase("Post")) {
+            if (this.method == HttpMethod.POST) {
                 httpRequest = new HttpPost(url);
-            } else if (this.method.equalsIgnoreCase("Put")) {
+            } else if (this.method == HttpMethod.PUT) {
                 httpRequest = new HttpPut(url);
-            } else if (this.method.equalsIgnoreCase("Patch")) {
+            } else if (this.method == HttpMethod.PATCH) {
                 httpRequest = new HttpPatch(url);
             } else {
                 httpRequest = new HttpPost(url);
