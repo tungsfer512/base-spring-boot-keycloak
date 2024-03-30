@@ -12,10 +12,47 @@ public class TestController {
 
     private static CustomLogger<TestController> logger = new CustomLogger<>(new TestController());
 
-    @GetMapping("/api/test")
-    public ResponseEntity<Object> test() {
-        CustomResponse<String> response = new CustomResponse<String>(200, "Test");
-        return response.response();
+    @GetMapping("/api/test-no-callback")
+    public ResponseEntity<Object> testNoCallback() {
+        Runnable callback_success = null;
+        Runnable callback_fail = null;
+        return ControllerUtils.response(callback_success, callback_fail);
+    }
+
+    @GetMapping("/api/test-callback")
+    public ResponseEntity<Object> testCallback() {
+        String message = "Hello, World";
+        String success = "Success";
+        String fail = "Fail";
+        Runnable callback_success = () -> {
+            logger.info(message + " ====== " + success);
+        };
+        Runnable callback_fail = () -> {
+            logger.info(message + " ====== " + fail);
+        };
+        return ControllerUtils.response(callback_success, callback_fail);
+    }
+
+    @GetMapping("/api/test-callback-success")
+    public ResponseEntity<Object> testCallbackSuccess() {
+        String message = "Hello, World";
+        String success = "Success";
+        Runnable callback_success = () -> {
+            logger.info(message + " ====== " + success);
+        };
+        Runnable callback_fail = null;
+        return ControllerUtils.response(callback_success, callback_fail);
+    }
+
+    @GetMapping("/api/test-callback-fail")
+    public ResponseEntity<Object> testCallbackFail() {
+        String message = "Hello, World";
+        String fail = "Fail";
+        Runnable callback_success = null;
+        Runnable callback_fail = () -> {
+            logger.info(message + " ====== " + fail);
+        };
+        return ControllerUtils.response(callback_success, callback_fail);
     }
 
     @GetMapping("/api/test-auth")

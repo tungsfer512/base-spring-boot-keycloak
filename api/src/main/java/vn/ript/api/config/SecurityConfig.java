@@ -43,7 +43,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         // .requestMatchers("/api/v1/**").authenticated()
                         .requestMatchers("/api/v1/**").permitAll()
-                        .requestMatchers("/api/test").permitAll()
+                        .requestMatchers("/api/test-callback").permitAll()
+                        .requestMatchers("/api/test-no-callback").permitAll()
+                        .requestMatchers("/api/test-callback-success").permitAll()
+                        .requestMatchers("/api/test-callback-fail").permitAll()
                         .requestMatchers("/api/test-auth").authenticated()
                         .requestMatchers("/api/test-auth-user").hasAnyAuthority("ROLE_USER")
                         .requestMatchers("/api/test-auth-admin").hasAnyAuthority("ROLE_ADMIN")

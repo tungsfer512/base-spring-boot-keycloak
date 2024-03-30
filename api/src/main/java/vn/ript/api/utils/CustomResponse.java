@@ -30,15 +30,19 @@ public class CustomResponse<T> {
             responseData.put("ErrorDesc", "Thanh cong");
             responseData.put("ErrorCode", "0");
             responseData.put("status", "OK");
-            if (this.data != null && this.data instanceof String) {
-                if (this.data.toString().startsWith("{")) {
-                    JSONObject jsonObject = new JSONObject(this.data.toString());
-                    responseData.put("data", jsonObject.toMap());
-                } else if (this.data.toString().startsWith("[")) {
-                    JSONArray jsonArray = new JSONArray(this.data.toString());
-                    responseData.put("data", jsonArray.toList());
+            if (this.data != null) {
+                if (this.data instanceof String) {
+                    if (this.data.toString().startsWith("{")) {
+                        JSONObject jsonObject = new JSONObject(this.data.toString());
+                        responseData.put("data", jsonObject.toMap());
+                    } else if (this.data.toString().startsWith("[")) {
+                        JSONArray jsonArray = new JSONArray(this.data.toString());
+                        responseData.put("data", jsonArray.toList());
+                    } else {
+                        responseData.put("data", this.data.toString());
+                    }
                 } else {
-                    responseData.put("data", this.data.toString());
+                    responseData.put("data", this.data);
                 }
             }
             return new ResponseEntity<Object>(responseData.toMap(), httpStatus);
@@ -46,15 +50,19 @@ public class CustomResponse<T> {
             responseData.put("ErrorDesc", "That bai");
             responseData.put("ErrorCode", "-1");
             responseData.put("status", "FAILED");
-            if (this.data != null && this.data instanceof String) {
-                if (this.data.toString().startsWith("{")) {
-                    JSONObject jsonObject = new JSONObject(this.data.toString());
-                    responseData.put("error", jsonObject.toMap());
-                } else if (this.data.toString().startsWith("[")) {
-                    JSONArray jsonArray = new JSONArray(this.data.toString());
-                    responseData.put("error", jsonArray.toList());
+            if (this.data != null) {
+                if (this.data instanceof String) {
+                    if (this.data.toString().startsWith("{")) {
+                        JSONObject jsonObject = new JSONObject(this.data.toString());
+                        responseData.put("error", jsonObject.toMap());
+                    } else if (this.data.toString().startsWith("[")) {
+                        JSONArray jsonArray = new JSONArray(this.data.toString());
+                        responseData.put("error", jsonArray.toList());
+                    } else {
+                        responseData.put("error", this.data.toString());
+                    }
                 } else {
-                    responseData.put("error", this.data.toString());
+                    responseData.put("error", this.data);
                 }
             }
             return new ResponseEntity<Object>(responseData.toMap(), httpStatus);
@@ -66,7 +74,7 @@ public class CustomResponse<T> {
         responseData.put("ErrorDesc", "That bai");
         responseData.put("ErrorCode", "-1");
         responseData.put("status", "FAILED");
-        responseData.put("error", "Loi file!!");
+        responseData.put("error", "Loi khi thao tac voi file!!");
         HttpStatus httpStatus = HttpStatus.valueOf(this.statusCode);
         if (httpStatus.is2xxSuccessful()) {
             if (this.data != null && this.data instanceof InputStreamResource) {

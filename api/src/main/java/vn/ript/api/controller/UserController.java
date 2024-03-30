@@ -100,7 +100,7 @@ public class UserController {
             CustomResponse<List<User>> response = new CustomResponse<>(200, resUsers);
             return response.response();
         } catch (Exception e) {
-            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
+            return ControllerUtils.response(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -136,7 +136,7 @@ public class UserController {
                 return response.response();
             }
         } catch (Exception e) {
-            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
+            return ControllerUtils.response(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -210,7 +210,7 @@ public class UserController {
                 return response.response();
             }
         } catch (Exception e) {
-            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
+            return ControllerUtils.response(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -234,7 +234,7 @@ public class UserController {
             CustomResponse<Object> response = new CustomResponse<>(204);
             return response.response();
         } catch (Exception e) {
-            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
+            return ControllerUtils.response(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -260,7 +260,7 @@ public class UserController {
             CustomResponse<User> response = new CustomResponse<>(200, resUser);
             return response.response();
         } catch (Exception e) {
-            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
+            return ControllerUtils.response(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -287,7 +287,7 @@ public class UserController {
 
             return response.response();
         } catch (Exception e) {
-            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
+            return ControllerUtils.response(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
@@ -362,7 +362,7 @@ public class UserController {
                 return response.response();
             }
         } catch (Exception e) {
-            return ControllerUtils.response_error(Constants.LOI.SERVER_ERROR.ma(), e);
+            return ControllerUtils.response(Constants.LOI.SERVER_ERROR.ma(), e);
         }
     }
 
