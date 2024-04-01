@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -28,8 +29,8 @@ public class ControllerUtils {
             @Nullable String type,
             @Nullable Map<String, String> params,
             @Nullable HttpEntity body,
-            @Nullable Runnable callback_success,
-            @Nullable Runnable callback_fail) throws Exception {
+            @Nullable Function<HttpResponse, CustomResponse<Object>> callback_success,
+            @Nullable Function<HttpResponse, CustomResponse<Object>> callback_fail) throws Exception {
         if (headers == null) {
             headers = new HashMap<>();
         }
@@ -51,6 +52,12 @@ public class ControllerUtils {
         InputStreamResource inputStreamResource = null;
         CustomResponse<Object> response = null;
         Integer status_code = httpResponse.getStatusLine().getStatusCode();
+        if (callback_success != null && HttpStatus.valueOf(status_code).is2xxSuccessful()) {
+            return callback_success.apply(httpResponse);
+        }
+        if (callback_fail != null && !HttpStatus.valueOf(status_code).is2xxSuccessful()) {
+            return callback_fail.apply(httpResponse);
+        }
         if (httpEntity != null) {
             if (type.equalsIgnoreCase(Constants.LOAI_REQUEST.FILE.ma())) {
                 inputStreamResource = new InputStreamResource(httpEntity.getContent());
@@ -62,31 +69,26 @@ public class ControllerUtils {
         } else {
             response = new CustomResponse<>(status_code, null);
         }
-        if (callback_success != null && HttpStatus.valueOf(status_code).is2xxSuccessful()) {
-            callback_success.run();
-        }
-        if (callback_fail != null && !HttpStatus.valueOf(status_code).is2xxSuccessful()) {
-            callback_fail.run();
-        }
         return response;
     }
 
-    public static ResponseEntity<Object> response(@Nullable Runnable callback_success,
-            @Nullable Runnable callback_fail) {
+    public static ResponseEntity<Object> response(
+            @Nullable Function<String, String> callback_success,
+            @Nullable Function<String, String> callback_fail) {
         List<String> messages = new ArrayList<>();
         if (callback_success != null) {
-            callback_success.run();
-            messages.add("Callback Success OK");
+            String tmp = callback_success.apply("Callback Success OK");
+            messages.add(tmp);
         }
         if (callback_fail != null) {
-            callback_fail.run();
-            messages.add("Callback Fail OK");
+            String tmp = callback_fail.apply("Callback Fail OK");
+            messages.add(tmp);
         }
         if (messages.size() > 0) {
             CustomResponse<Object> response = new CustomResponse<>(200, messages);
             return response.response();
         }
-        CustomResponse<Object> response = new CustomResponse<>(200, "No Callback Funtion Executed");
+        CustomResponse<Object> response = new CustomResponse<>(200, "No Callback Function Was Executed");
         return response.response();
     }
 

@@ -1,5 +1,7 @@
 package vn.ript.api.controller;
 
+import java.util.function.Function;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,8 +16,8 @@ public class TestController {
 
     @GetMapping("api/test-no-callback")
     public ResponseEntity<Object> testNoCallback() {
-        Runnable callback_success = null;
-        Runnable callback_fail = null;
+        Function<String, String> callback_success = null;
+        Function<String, String> callback_fail = null;
         return ControllerUtils.response(callback_success, callback_fail);
     }
 
@@ -24,11 +26,13 @@ public class TestController {
         String message = "Hello, World";
         String success = "Success";
         String fail = "Fail";
-        Runnable callback_success = () -> {
+        Function<String, String> callback_success = (arg) -> {
             logger.info(message + " ====== " + success);
+            return arg;
         };
-        Runnable callback_fail = () -> {
+        Function<String, String> callback_fail = (arg) -> {
             logger.info(message + " ====== " + fail);
+            return arg;
         };
         return ControllerUtils.response(callback_success, callback_fail);
     }
@@ -37,10 +41,11 @@ public class TestController {
     public ResponseEntity<Object> testCallbackSuccess() {
         String message = "Hello, World";
         String success = "Success";
-        Runnable callback_success = () -> {
+        Function<String, String> callback_success = (arg) -> {
             logger.info(message + " ====== " + success);
+            return arg;
         };
-        Runnable callback_fail = null;
+        Function<String, String> callback_fail = null;
         return ControllerUtils.response(callback_success, callback_fail);
     }
 
@@ -48,9 +53,10 @@ public class TestController {
     public ResponseEntity<Object> testCallbackFail() {
         String message = "Hello, World";
         String fail = "Fail";
-        Runnable callback_success = null;
-        Runnable callback_fail = () -> {
+        Function<String, String> callback_success = null;
+        Function<String, String> callback_fail = (arg) -> {
             logger.info(message + " ====== " + fail);
+            return arg;
         };
         return ControllerUtils.response(callback_success, callback_fail);
     }
