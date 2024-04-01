@@ -46,7 +46,7 @@ public class ControllerUtils {
             @NotNull String url,
             @Nullable Map<String, String> headers,
             @Nullable String type,
-            @Nullable Map<String, String> params,
+            @Nullable Map<String, Object> params,
             @Nullable HttpEntity body,
             @Nullable Function<HttpResponse, CustomResponse<Object>> callback_success,
             @Nullable Function<HttpResponse, CustomResponse<Object>> callback_fail) throws Exception {
@@ -58,7 +58,11 @@ public class ControllerUtils {
         }
         CustomHttpClientRequest httpRequest = new CustomHttpClientRequest(method, url, headers);
         if (params != null && params.isEmpty() == false) {
-            params.forEach((k, v) -> httpRequest.add_query_param(k, v));
+            params.forEach((k, v) -> {
+                if (v != null) {
+                    httpRequest.add_query_param(k, v.toString());
+                }
+            });
         }
         HttpResponse httpResponse = null;
         if (body != null) {
