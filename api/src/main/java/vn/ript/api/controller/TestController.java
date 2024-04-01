@@ -18,7 +18,7 @@ public class TestController {
     public ResponseEntity<Object> testNoCallback() {
         Function<String, String> callback_success = null;
         Function<String, String> callback_fail = null;
-        return ControllerUtils.response(callback_success, callback_fail);
+        return ControllerUtils.testResponseForCallback(callback_success, callback_fail).response();
     }
 
     @GetMapping("api/test-callback")
@@ -34,7 +34,7 @@ public class TestController {
             logger.info(message + " ====== " + fail);
             return arg;
         };
-        return ControllerUtils.response(callback_success, callback_fail);
+        return ControllerUtils.testResponseForCallback(callback_success, callback_fail).response();
     }
 
     @GetMapping("api/test-callback-success")
@@ -46,7 +46,7 @@ public class TestController {
             return arg;
         };
         Function<String, String> callback_fail = null;
-        return ControllerUtils.response(callback_success, callback_fail);
+        return ControllerUtils.testResponseForCallback(callback_success, callback_fail).response();
     }
 
     @GetMapping("api/test-callback-fail")
@@ -58,31 +58,27 @@ public class TestController {
             logger.info(message + " ====== " + fail);
             return arg;
         };
-        return ControllerUtils.response(callback_success, callback_fail);
+        return ControllerUtils.testResponseForCallback(callback_success, callback_fail).response();
     }
 
     @GetMapping("api/test-auth")
     public ResponseEntity<Object> testAuth() {
-        CustomResponse<String> response = new CustomResponse<String>(200, "Test Auth");
-        return response.response();
+        return ControllerUtils.response(200, "Test Auth").response();
     }
 
     @GetMapping("api/test-auth-user")
     public ResponseEntity<Object> testAuthUser() {
-        CustomResponse<String> response = new CustomResponse<String>(200, "Test Auth User");
-        return response.response();
+        return ControllerUtils.response(200, "Test Auth User").response();
     }
 
     @GetMapping("api/test-auth-admin")
     public ResponseEntity<Object> testAuthAdmin() {
-        CustomResponse<String> response = new CustomResponse<String>(200, "Test Auth Admin");
-        return response.response();
+        return ControllerUtils.response(200, "Test Auth Admin").response();
     }
 
     @GetMapping("api/test-no-auth")
     public ResponseEntity<Object> testNoAuth() {
-        CustomResponse<String> response = new CustomResponse<String>(200, "Test No Auth");
-        return response.response();
+        return ControllerUtils.response(200, "Test No Auth").response();
     }
 
 }

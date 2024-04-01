@@ -12,7 +12,6 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -21,6 +20,26 @@ import vn.ript.api.utils.CustomHttpClientRequest;
 import vn.ript.api.utils.CustomResponse;
 
 public class ControllerUtils {
+
+    public static CustomResponse<Object> testResponseForCallback(
+            @Nullable Function<String, String> callback_success,
+            @Nullable Function<String, String> callback_fail) {
+        List<String> messages = new ArrayList<>();
+        if (callback_success != null) {
+            String tmp = callback_success.apply("Callback Success OK");
+            messages.add(tmp);
+        }
+        if (callback_fail != null) {
+            String tmp = callback_fail.apply("Callback Fail OK");
+            messages.add(tmp);
+        }
+        if (messages.size() > 0) {
+            CustomResponse<Object> response = new CustomResponse<>(200, messages);
+            return response;
+        }
+        CustomResponse<Object> response = new CustomResponse<>(200, "No Callback Function Was Executed");
+        return response;
+    }
 
     public static CustomResponse<Object> requestForResponse(
             @NotNull HttpMethod method,
@@ -72,33 +91,13 @@ public class ControllerUtils {
         return response;
     }
 
-    public static ResponseEntity<Object> response(
-            @Nullable Function<String, String> callback_success,
-            @Nullable Function<String, String> callback_fail) {
-        List<String> messages = new ArrayList<>();
-        if (callback_success != null) {
-            String tmp = callback_success.apply("Callback Success OK");
-            messages.add(tmp);
-        }
-        if (callback_fail != null) {
-            String tmp = callback_fail.apply("Callback Fail OK");
-            messages.add(tmp);
-        }
-        if (messages.size() > 0) {
-            CustomResponse<Object> response = new CustomResponse<>(200, messages);
-            return response.response();
-        }
-        CustomResponse<Object> response = new CustomResponse<>(200, "No Callback Function Was Executed");
-        return response.response();
-    }
-
-    public static ResponseEntity<Object> response(Integer status_code, @Nullable Object obj) {
+    public static CustomResponse<Object> response(Integer status_code, @Nullable Object obj) {
         if (obj != null) {
             CustomResponse<Object> response = new CustomResponse<>(status_code, obj.toString());
-            return response.response();
+            return response;
         } else {
             CustomResponse<Object> response = new CustomResponse<>(status_code);
-            return response.response();
+            return response;
         }
     }
 
