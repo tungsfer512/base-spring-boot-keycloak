@@ -30,7 +30,7 @@ import vn.ript.api.utils.CustomResponse;
 import vn.ript.api.utils.Env;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("api/v1/users")
 public class UserController {
 
     private static CustomLogger<UserController> logger = new CustomLogger<>(new UserController());
@@ -104,7 +104,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Object> getById(@PathVariable String id) {
         try {
             List<UserRepresentation> users = keycloak.realm(realm).users().list();
@@ -140,7 +140,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("{id}")
     public ResponseEntity<Object> updateById(@PathVariable String id,
             @RequestBody Map<String, Object> body) {
         try {
@@ -214,7 +214,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Object> deleteById(@PathVariable String id) {
         try {
             List<UserRepresentation> users = keycloak.realm(realm).users().list();
@@ -238,7 +238,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/me")
+    @GetMapping("me")
     public ResponseEntity<Object> getMe(@AuthenticationPrincipal Jwt jwt) {
         try {
             String id = jwt.getClaim("sub");
@@ -264,7 +264,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/me/permissions")
+    @GetMapping("me/permissions")
     public ResponseEntity<Object> getMePermissions(@AuthenticationPrincipal Jwt jwt) {
         try {
             String id = jwt.getClaim("sub");
@@ -291,7 +291,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/me")
+    @PatchMapping("me")
     public ResponseEntity<Object> updateMe(@AuthenticationPrincipal Jwt jwt,
             @RequestBody Map<String, Object> body) {
         try {
