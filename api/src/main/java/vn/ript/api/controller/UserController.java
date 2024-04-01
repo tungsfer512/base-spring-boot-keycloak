@@ -25,15 +25,12 @@ import jakarta.ws.rs.core.Response;
 import vn.ript.api.model.User;
 import vn.ript.api.service.UserService;
 import vn.ript.api.utils.Constants;
-import vn.ript.api.utils.CustomLogger;
 import vn.ript.api.utils.CustomResponse;
 import vn.ript.api.utils.Env;
 
 @RestController
 @RequestMapping("api/v1/users")
 public class UserController {
-
-    private static CustomLogger<UserController> logger = new CustomLogger<>(new UserController());
 
     private static String realm = Env.KEYCLOAK_REALM;
 

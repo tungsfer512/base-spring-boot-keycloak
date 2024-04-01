@@ -17,12 +17,9 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import vn.ript.api.utils.Constants;
 import vn.ript.api.utils.CustomHttpClientRequest;
-import vn.ript.api.utils.CustomLogger;
 import vn.ript.api.utils.CustomResponse;
 
 public class ControllerUtils {
-
-    private static CustomLogger<ControllerUtils> logger = new CustomLogger<>(new ControllerUtils());
 
     public static CustomResponse<Object> requestForResponse(
             @NotNull HttpMethod method,
