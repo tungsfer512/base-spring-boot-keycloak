@@ -34,7 +34,14 @@ public class CustomResponse<T> {
                 if (this.data instanceof String) {
                     if (this.data.toString().startsWith("{")) {
                         JSONObject jsonObject = new JSONObject(this.data.toString());
-                        responseData.put("data", jsonObject.toMap());
+                        if (jsonObject.has("ErrorDesc") &&
+                                jsonObject.has("ErrorCode") &&
+                                jsonObject.has("status") &&
+                                jsonObject.has("data")) {
+                            return new ResponseEntity<Object>(jsonObject.toMap(), httpStatus);
+                        } else {
+                            responseData.put("data", jsonObject.toMap());
+                        }
                     } else if (this.data.toString().startsWith("[")) {
                         JSONArray jsonArray = new JSONArray(this.data.toString());
                         responseData.put("data", jsonArray.toList());

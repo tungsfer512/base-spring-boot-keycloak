@@ -37,6 +37,8 @@ build/
 **/resources/edocs/*
 **/resources/attachments/*
 **/resources/config/*
+**/resources/files/*
 !**/resources/edocs/.gitkeep
 !**/resources/attachments/.gitkeep
 !**/resources/config/.gitkeep
+!**/resources/files/.gitkeep
